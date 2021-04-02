@@ -4,7 +4,13 @@ const BigNumber = require('bignumber.js')
 const axios = require('axios')
 const Tx = require('ethereumjs-tx').Transaction
 
-const keys = []
+const sleep = (time) => {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
+
+const keys = [
+
+]
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/e627df92b3124ef4ac3a8b7b86664e1a'))
 
@@ -30,8 +36,9 @@ keys.map(async (key, index) => {
       console.log('retry', index)
       console.log(e)
     }
+    await sleep(20000)
   }
-
+  
   /* 这三行备用，防止接口传过来是普通字符串需要自己手动转 byte32 */
   // params.id = web3.utils.utf8ToHex(id)
   // params.r = web3.utils.utf8ToHex(r)
@@ -53,8 +60,8 @@ keys.map(async (key, index) => {
     const txObject = {
       from: address,
       to: '0xA39d1e9CBecdb17901bFa87a5B306D67f15A2391',
-      gasPrice: web3.utils.toHex(web3.utils.toWei('350', 'gwei')),
-      gas: web3.utils.toHex(250000),
+      gasPrice: web3.utils.toHex(web3.utils.toWei('300', 'gwei')),
+      gas: web3.utils.toHex(145636),
       data: txData,
       nonce: web3.utils.toHex(txCount),
     }
